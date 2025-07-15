@@ -28,7 +28,7 @@ const isLoadingOfferPdf = (loadingState) => {
 }
 
 const closePdf = () => {
-    URL.revokeObjectURL(pdfUrl.value);
+    URL.revokeObjectURL(pdfUrl.value)
     pdfUrl.value = '';
 };
 

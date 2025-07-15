@@ -14,21 +14,15 @@ const onClickOffer = async (offerId) => {
         const offer = await ServiceAPI.fetchOfferPdf(offerId);
         const content = offer[0].content;
 
-        const byteCharacters = atob(content);
-        const byteArrays = [];
+        var url = 'data:application/pdf;base64,' + content;
+        var blobUrl;
+        fetch(url)
+            .then(res => res.blob())
+            .then(URL.createObjectURL)
+            .then((ret) => { blobUrl = ret; return blobUrl; })
+            .then((res) => pdfUrl.value = res);
 
-        for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-            const slice = byteCharacters.slice(offset, offset + 512);
-            const byteNumbers = new Array(slice.length);
-            for (let i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            byteArrays.push(byteArray);
-        }
-        const blob = new Blob(byteArrays, { type: "application/pdf" });
         emit('loadingPdf', false);
-        pdfUrl.value = URL.createObjectURL(blob);
     } catch (error) {
         emit('loadingPdf', false);
         return;
@@ -130,8 +124,11 @@ defineProps({
                 </div>
             </div>
         </template>
-        <button @click="$emit('go-back')" class="text-white bg-red-500 hover:bg-red-600 rounded px-4 py-2">
-            Inapoi
-        </button>
+        <div class="flex justify-center">
+            <button @click="$emit('go-back')"
+                class="text-white text-xl bg-red-500 hover:bg-red-600 rounded-3xl px-16 py-4">
+                Inapoi
+            </button>
+        </div>
     </div>
 </template>
