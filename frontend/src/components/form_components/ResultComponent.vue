@@ -1,6 +1,43 @@
 <script setup>
+import { ServiceAPI } from '@/service/apiService';
+import { ref, watch } from 'vue';
+
+const emit = defineEmits(['changePdf'], ['loadingPdf']);
 
 const insurers = { "asirom": "Asirom", "allianz": "Allianz", "axeria": "Axeria", "generali": "Generali", "groupama": "Groupama", "hellas_autonom": "Hellas Autonom", "hellas_nextins": "Hellas Nextins", "omniasig": "Omniasig", "grawe": "Grawe", "eazy_insure": "Eazy Insure" }
+
+const pdfUrl = ref('');
+
+const onClickOffer = async (offerId) => {
+    emit('loadingPdf', true);
+    try {
+        const offer = await ServiceAPI.fetchOfferPdf(offerId);
+        const content = offer[0].content;
+
+        const byteCharacters = atob(content);
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+            const slice = byteCharacters.slice(offset, offset + 512);
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+        const blob = new Blob(byteArrays, { type: "application/pdf" });
+        emit('loadingPdf', false);
+        pdfUrl.value = URL.createObjectURL(blob);
+    } catch (error) {
+        emit('loadingPdf', false);
+        return;
+    }
+}
+
+watch(pdfUrl, (onNewPdf) => {
+    emit('changePdf', onNewPdf);
+})
 
 defineProps({
     loading: Boolean,
@@ -76,13 +113,25 @@ defineProps({
                                 d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
                         <p class="text-white">Excluse green card: {{ offer.greenCardExclusions }}</p>
+
+
                     </div>
                     <br>
-                    <p class="text-end text-white">ID Oferta Asigurator: {{ offer.providerOfferCode }}</p>
-                    <p class="text-end text-white">Oferta valabila pana pe data de: {{ offer.offerExpiryDate }}</p>
+                    <div class="flex justify-center">
+                        <button @click="onClickOffer(offer.offerId)"
+                            class="py-3 px-6 bg-gradient-to-bl from-slate-900/40 via-blue-900/40 to-slate-900/40 backdrop-blur-md rounded-2xl shadow border border-white/10 text-white">Vezi
+                            oferta!</button>
+                    </div>
+
+                    <!-- <p class="text-end text-white">ID Oferta Asigurator: {{ offer.providerOfferCode }}</p> -->
+                    <p class="text-center font-thin text-xs text-white">Oferta valabila pana pe data de: {{
+                        offer.offerExpiryDate }}</p>
 
                 </div>
             </div>
         </template>
+        <button @click="$emit('go-back')" class="text-white bg-red-500 hover:bg-red-600 rounded px-4 py-2">
+            Inapoi
+        </button>
     </div>
 </template>

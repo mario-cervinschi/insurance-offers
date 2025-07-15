@@ -2,6 +2,7 @@
 import PersonComponent from '@/components/form_components/PersonComponents.vue';
 import VehicleComponent from '@/components/form_components/VehicleComponent.vue';
 import RadioComponent from '@/components/form_inputs/RadioComponent.vue';
+import { useFormStore } from '@/service/formStore';
 import { onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -10,17 +11,21 @@ const router = useRouter();
 const motorJSON = ref('');
 const currentStep = ref(1);
 
+const formStore = useFormStore();
+
 const copyValues = ref(false);
 
 const stepsMeaning = { 1: "Detalii asigurare", 2: "Detalii proprietar", 3: "Detalii vehicul" };
 
 const personPolicyHolderViewRef = ref();
+const personPolicyHolderEntity = ref(false);
 const personOwnerViewRef = ref();
+const personOwnerEntity = ref(false);
 const vehicleViewRef = ref();
 
 const personPolicyholderValues = ref({});
 const personOwnerValues = ref({});
-let vehicleValues = {};
+const vehicleValues = ref({});
 
 const validateQueryString = (query) => {
     if (!query.startDate || !query.termTime || !query.installmentCount || !query.comissionPercentLimit) {
@@ -69,6 +74,7 @@ const goToStepTwo = () => {
         return;
     }
     personPolicyholderValues.value = personPolicyHolderViewRef.value.getValues();
+    personPolicyHolderEntity.value = personPolicyHolderViewRef.value.getLegalEntity();
     goToStep(2);
 }
 
@@ -78,8 +84,10 @@ const goToStepThree = () => {
             return;
         }
         personOwnerValues.value = personOwnerViewRef.value.getValues();
+        personOwnerEntity.value = personOwnerViewRef.value.getLegalEntity();
     } else {
         personOwnerValues.value = { ...personPolicyholderValues.value };
+        personOwnerEntity.value = personPolicyHolderEntity.value;
     }
     goToStep(3);
 }
@@ -89,19 +97,17 @@ const goGetOffers = () => {
         return;
     }
 
-    vehicleValues = vehicleViewRef.value.getValues();
-    vehicleValues.owner = personOwnerValues;
+    vehicleValues.value = vehicleViewRef.value.getValues();
+    vehicleValues.value.owner = personOwnerValues;
 
     const pti = vehicleViewRef.value.getPTI();
 
-    const dataToPass = {
-        personPolicyholderValues: personPolicyholderValues.value,
-        personOwnerValues: personOwnerValues.value,
-        vehicleValues,
-        pti
-    };
-
-    sessionStorage.setItem('formData', JSON.stringify(dataToPass));
+    formStore.setPolicyholder(personPolicyholderValues.value);
+    formStore.setOwner(personOwnerValues.value);
+    formStore.setVehicle(vehicleValues.value);
+    formStore.setPTI(pti);
+    formStore.setPolicyLegalEntity(personPolicyHolderEntity.value);
+    formStore.setOwnerLegalEntity(personOwnerEntity.value);
 
     router.push({
         path: '/result',
@@ -136,6 +142,13 @@ onMounted(() => {
 
     motorJSON.value = query;
 
+    personPolicyholderValues.value = formStore.personPolicyholderValues;
+    personOwnerValues.value = formStore.personOwnerValues;
+    vehicleValues.value = formStore.vehicleValues;
+    const pti = formStore.pti;
+    personOwnerEntity.value = formStore.isOwnerLegalEntity;
+    personPolicyHolderEntity.value = formStore.isPolicyLegalEntity;
+
     const stepFromUrl = parseInt(query.step) || 1;
 
     if (!hasValidString || !hasValidParameters || stepFromUrl > 1) {
@@ -144,6 +157,7 @@ onMounted(() => {
         currentStep.value = stepFromUrl;
         updateUrlWithStep(stepFromUrl);
     }
+
 });
 </script>
 
@@ -217,7 +231,8 @@ onMounted(() => {
                         <Transition name="slide" mode="out-in">
                             <div v-if="currentStep === 1" key="step1" class="p-8">
                                 <h1 class="font-bold text-4xl text-white drop-shadow-lg mb-8">Detalii asigurare</h1>
-                                <PersonComponent :initialValues="personPolicyholderValues" componentId="person_info"
+                                <PersonComponent :initialValues="personPolicyholderValues"
+                                    :initialEntity="personPolicyHolderEntity" componentId="person_info"
                                     ref="personPolicyHolderViewRef">
                                 </PersonComponent>
                                 <div class="flex justify-center pb-6">
@@ -240,7 +255,8 @@ onMounted(() => {
 
                                 <Transition name="fade" mode="out-in">
                                     <div v-if="copyValues" key="owner-form">
-                                        <PersonComponent :initialValues="personOwnerValues" componentId="owner_info"
+                                        <PersonComponent :initialValues="personOwnerValues"
+                                            :initialEntity="personOwnerEntity" componentId="owner_info"
                                             ref="personOwnerViewRef"></PersonComponent>
                                     </div>
                                 </Transition>
@@ -259,11 +275,12 @@ onMounted(() => {
 
                             <div v-else-if="currentStep === 3" key="step3" class="p-8">
                                 <h1 class="font-bold text-4xl text-white drop-shadow-lg mb-8">Detalii vehicul</h1>
-                                <VehicleComponent ref="vehicleViewRef"></VehicleComponent>
+                                <VehicleComponent :initialValues="vehicleValues" ref="vehicleViewRef">
+                                </VehicleComponent>
                                 <div class="flex justify-between items-center pb-6">
                                     <button @click="goBack"
                                         class="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-semibold rounded-lg py-3 px-16 shadow-lg hover:shadow-xl transition-all duration-300">
-                                        Înapoi
+                                        Inapoi
                                     </button>
                                     <button @click="goGetOffers"
                                         class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold rounded-lg py-3 px-16 shadow-lg hover:shadow-xl transition-all duration-300">

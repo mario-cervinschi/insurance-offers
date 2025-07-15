@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import InputComponent from '../form_inputs/InputComponent.vue';
 import SelectorComponent from '../form_inputs/SelectorComponent.vue';
 import { ValidationService } from '@/service/validationService';
@@ -26,6 +26,7 @@ const props = defineProps({
         default: `Detalii asigurare`
     },
     initialValues: Object,
+    initialEntity: Boolean,
 });
 
 const isLegalEntity = ref(false);
@@ -195,7 +196,13 @@ watch(isForeignPerson, (val) => {
     }
 })
 
+let cityWatchInitialized = false;
+
 watch(addressCity, (newCityName) => {
+    if (!cityWatchInitialized) {
+        cityWatchInitialized = true;
+        return;
+    }
     const selectedCity = cities.value.find(city => city.name === newCityName);
     if (selectedCity) {
         addressCityCode.value = selectedCity.siruta || "";
@@ -327,6 +334,7 @@ const validate = () => {
 const setValues = (values) => {
     if (!values) return;
 
+    isLegalEntity.value = values.legalEntity || false;
     lastName.value = values.lastName || '';
     firstName.value = values.firstName || '';
     isForeignPerson.value = values.isForeignPerson || false;
@@ -369,6 +377,11 @@ watch(() => props.initialValues, (newVal) => {
     if (newVal) setValues(newVal);
 }, { immediate: true });
 
+watch(() => props.initialEntity, (newVal) => {
+    if (newVal) isLegalEntity.value = newVal;
+}, { immediate: true });
+
+const getLegalEntity = () => { return isLegalEntity.value };
 
 const getValues = () => {
     const values = {
@@ -419,8 +432,13 @@ const getValues = () => {
 
 defineExpose({
     getValues,
-    validate
+    validate,
+    getLegalEntity
 });
+
+onMounted(() => {
+    fetchNationalities();
+}) 
 </script>
 
 <template>

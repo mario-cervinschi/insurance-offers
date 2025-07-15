@@ -6,6 +6,11 @@ import { Service } from '@/service/service';
 import { ValidationService } from '@/service/validationService';
 import RadioComponent from '../form_inputs/RadioComponent.vue';
 
+const props = defineProps({
+    initialValues: Object,
+});
+
+
 const inputRefs = ref([]);
 
 const setInputRef = (el, index) => {
@@ -142,6 +147,40 @@ const validate = () => {
     return isValid;
 };
 
+const setValues = (data) => {
+    if (!data) return;
+
+    const driverData = data.driver?.[0] || {};
+
+    driverLastName.value = driverData.lastName || '';
+    driverFirstName.value = driverData.firstName || '';
+    driverTaxId.value = driverData.taxId || '';
+    driverIdentif.value = driverData.identification?.idNumber || '';
+    driverMobileNumber.value = driverData.mobileNumber || '';
+
+    licensePlate.value = data.licensePlate || '';
+    registrationType.value = data.registrationType || '';
+    vin.value = data.vin || '';
+    vehicleType.value = data.vehicleType || '';
+    brand.value = data.brand || '';
+    model.value = data.model || '';
+    year.value = data.yearOfConstruction || '';
+    displacement.value = data.engineDisplacement || '';
+    power.value = data.enginePower || '';
+    weight.value = data.totalWeight || '';
+    seats.value = data.seats || '';
+    fuelType.value = data.fuelType || '';
+    firstReg.value = data.firstRegistration || '';
+    usage.value = data.usageType || '';
+    vehicleCIV.value = data.identification?.idNumber || '';
+    currentMileage.value = data.currentMileage || '';
+    carForDisabled.value = data.hasMobilityModifications || false;
+    isLeased.value = data.isLeased || false;
+};
+
+watch(() => props.initialValues, (newVal) => {
+    if (newVal) setValues(newVal);
+}, { immediate: true });
 
 const getValues = () => {
     return {

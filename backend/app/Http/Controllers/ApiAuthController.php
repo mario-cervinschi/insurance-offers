@@ -172,4 +172,18 @@ class ApiAuthController extends Controller
         return $response->json();
     }
 
+    public function getOfferPdf($offerId){
+        $token = $this->getToken();
+
+        $response = Http::withoutVerifying()->withHeaders([
+            'Token' => $token,
+        ])->get(config('services.lifeishard.api_url') . "offer/{$offerId}");
+
+        if ($response->successful()) {
+            return $response->json()['data']['files'];
+        }
+
+        abort(500, 'Failed to fetch countries');
+    }
+
 }

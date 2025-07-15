@@ -7,7 +7,7 @@ import FooterComponent from './components/FooterComponent.vue';
 <template>
   <div class="flex flex-col h-screen justify-between">
     <NavigationComponent></NavigationComponent>
-    <RouterView/>
+    <RouterView />
     <FooterComponent></FooterComponent>
   </div>
 

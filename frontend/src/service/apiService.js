@@ -56,4 +56,20 @@ export class ServiceAPI {
       throw error
     }
   }
+
+  static async fetchOfferPdf(offerId) {
+    try {
+      const response = await fetch(`http://localhost:8000/api/offer/${offerId}`)
+
+      if (!response.ok) {
+        throw new Error('API error')
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error('Error fetching offer pdf:', error)
+      throw error
+    }
+  }
 }
