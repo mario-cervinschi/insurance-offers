@@ -75,6 +75,7 @@ const goToStepTwo = () => {
     }
     personPolicyholderValues.value = personPolicyHolderViewRef.value.getValues();
     personPolicyHolderEntity.value = personPolicyHolderViewRef.value.getLegalEntity();
+    console.log(personPolicyholderValues.value);
     goToStep(2);
 }
 
@@ -89,6 +90,8 @@ const goToStepThree = () => {
         personOwnerValues.value = { ...personPolicyholderValues.value };
         personOwnerEntity.value = personPolicyHolderEntity.value;
     }
+    console.log(personOwnerValues.value);
+
     goToStep(3);
 }
 

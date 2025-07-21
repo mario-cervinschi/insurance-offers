@@ -6,6 +6,7 @@ use App\Models\InsurrerOfferDTO;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class ApiAuthController extends Controller
 {
@@ -184,6 +185,34 @@ class ApiAuthController extends Controller
         }
 
         abort(500, 'Failed to fetch countries');
+    }
+
+    public function getPolicy(Request $request){
+        $token = $this->getToken();
+
+        $data = $request->all();
+
+        $letters = strtoupper(Str::random(4));
+        $numbers = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
+
+        $documentNumber = 'DOC-' . $letters . $numbers;
+
+        $data['payment']['documentNumber'] = $documentNumber;
+
+        $response = Http::withoutVerifying()->withHeaders([
+            'Token' => $token,
+        ])->post(config('services.lifeishard.api_url') . 'policy', $data);
+
+        $policyId = $response->json()['data']['policies'][0]['policyId'];
+
+        $response = Http::withoutVerifying()->withHeaders([
+            'Token' => $token,
+        ])->get(config('services.lifeishard.api_url') . "policy/{$policyId}");
+
+        return response()->json([
+            'status' => $response->status(),
+            'body' => $response->json()['data']['files']
+        ]);
     }
 
 }

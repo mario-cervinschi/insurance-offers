@@ -57,6 +57,26 @@ export class ServiceAPI {
     }
   }
 
+  static async fetchPolicy(request) {
+    try {
+      const response = await fetch('http://localhost:8000/api/policy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(request),
+      })
+
+      if (!response.ok) {
+        throw new Error('API error')
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error('Error fetching offers:', error)
+      throw error
+    }
+  }
+
   static async fetchOfferPdf(offerId) {
     try {
       const response = await fetch(`http://localhost:8000/api/offer/${offerId}`)

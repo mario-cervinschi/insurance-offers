@@ -8,9 +8,11 @@ const route = useRoute();
 const router = useRouter();
 
 const formStore = useFormStore();
+const offerStore = useOfferStore();
 
 const isLoading = ref(false);
 const isLoadingOffer = ref(false);
+const showPolicyForm = ref(false);
 
 const offers = ref(null);
 
@@ -18,6 +20,8 @@ const pdfUrl = ref('');
 
 import { ServiceAPI } from '@/service/apiService';
 import LoadingComponent from '@/components/LoadingComponent.vue';
+import { useOfferStore } from '@/service/offerStore';
+import PolicyFormComponent from '@/components/form_components/PolicyFormComponent.vue';
 
 const getPdfUrl = (pdf) => {
     pdfUrl.value = pdf;
@@ -28,8 +32,13 @@ const isLoadingOfferPdf = (loadingState) => {
 }
 
 const closePdf = () => {
-    URL.revokeObjectURL(pdfUrl.value)
+    URL.revokeObjectURL(pdfUrl.value);
+    offerStore.clear();
     pdfUrl.value = '';
+};
+
+const closePolicyPdf = () => {
+    showPolicyForm.value = false;
 };
 
 const goBackToForm = () => {
@@ -45,6 +54,12 @@ const goBackToForm = () => {
         },
     });
 };
+
+const showPolicy = () => {
+    URL.revokeObjectURL(pdfUrl.value);
+    pdfUrl.value = '';
+    showPolicyForm.value = true;
+}
 
 onMounted(async () => {
     isLoading.value = true;
@@ -104,7 +119,8 @@ onMounted(async () => {
     <div v-if="pdfUrl || isLoadingOffer"
         class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[9999]">
         <LoadingComponent v-if="isLoadingOffer" label="Se incarca oferta..."></LoadingComponent>
-        <div v-if="!isLoadingOffer" class="relative w-[80%] max-w-[1000px] h-[85%] flex items-center justify-center">
+        <div v-if="!isLoadingOffer"
+            class="flex-col relative w-[80%] max-w-[1000px] h-[85%] flex items-center justify-center">
             <!-- Close button -->
             <button @click="closePdf"
                 class="absolute top-2 -right-12 z-10 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-lg">
@@ -114,7 +130,26 @@ onMounted(async () => {
                 </svg>
             </button>
 
-            <iframe v-if="pdfUrl" :src="pdfUrl" frameborder="0" class="w-full h-full rounded-md"></iframe>
+            <iframe :src="pdfUrl" frameborder="0" class="w-full h-full rounded-md"></iframe>
+            <button @click="showPolicy" class="text-white text-xl bg-red-500 hover:bg-red-600 rounded-3xl px-16 py-4">
+                Creaza polita
+            </button>
+        </div>
+    </div>
+
+    <div v-if="showPolicyForm" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[9999]">
+        <div class="relative w-[80%] max-w-[1000px] h-[85%] flex items-center justify-center">
+            <!-- Close button -->
+            <button @click="closePolicyPdf"
+                class="absolute top-2 -right-12 z-10 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <PolicyFormComponent></PolicyFormComponent>
+
         </div>
     </div>
 </template>

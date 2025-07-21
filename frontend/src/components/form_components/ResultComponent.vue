@@ -1,5 +1,6 @@
 <script setup>
 import { ServiceAPI } from '@/service/apiService';
+import { useOfferStore } from '@/service/offerStore';
 import { ref, watch } from 'vue';
 
 const emit = defineEmits(['changePdf'], ['loadingPdf']);
@@ -8,11 +9,16 @@ const insurers = { "asirom": "Asirom", "allianz": "Allianz", "axeria": "Axeria",
 
 const pdfUrl = ref('');
 
-const onClickOffer = async (offerId) => {
+const offerStore = useOfferStore();
+
+const onClickOffer = async (offerId, offerPrice) => {
     emit('loadingPdf', true);
     try {
         const offer = await ServiceAPI.fetchOfferPdf(offerId);
         const content = offer[0].content;
+
+        offerStore.setOfferId(offerId);
+        offerStore.setAmount(offerPrice);
 
         var url = 'data:application/pdf;base64,' + content;
         var blobUrl;
@@ -112,7 +118,7 @@ defineProps({
                     </div>
                     <br>
                     <div class="flex justify-center">
-                        <button @click="onClickOffer(offer.offerId)"
+                        <button @click="onClickOffer(offer.offerId, offer.premiumAmount)"
                             class="py-3 px-6 bg-gradient-to-bl from-slate-900/40 via-blue-900/40 to-slate-900/40 backdrop-blur-md rounded-2xl shadow border border-white/10 text-white">Vezi
                             oferta!</button>
                     </div>

@@ -206,8 +206,10 @@ watch(addressCity, (newCityName) => {
     const selectedCity = cities.value.find(city => city.name === newCityName);
     if (selectedCity) {
         addressCityCode.value = selectedCity.siruta || "";
+        console.log(addressCityCode.value)
     } else {
         addressCityCode.value = "";
+        console.log(addressCityCode.value)
     }
 });
 
