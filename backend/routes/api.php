@@ -1,9 +1,16 @@
 <?php
 
+use \Illuminate\Support\Facades\Route;
 
-\Illuminate\Support\Facades\Route::get('/countries', [\App\Http\Controllers\ApiAuthController::class, 'getCountries']);
-\Illuminate\Support\Facades\Route::get('/counties', [\App\Http\Controllers\ApiAuthController::class, 'getCounties']);
-\Illuminate\Support\Facades\Route::get('/cities/{county_code}', [\App\Http\Controllers\ApiAuthController::class, 'getCities']);
-\Illuminate\Support\Facades\Route::post('/offer', [\App\Http\Controllers\ApiAuthController::class, 'getOffers']);
-\Illuminate\Support\Facades\Route::get('/offer/{offerId}', [\App\Http\Controllers\ApiAuthController::class, 'getOfferPdf']);
-\Illuminate\Support\Facades\Route::post('/policy', [\App\Http\Controllers\ApiAuthController::class, 'getPolicy']);
+use App\Http\Controllers\ApiNomenclatureController;
+use App\Http\Controllers\ApiOfferController;
+use App\Http\Controllers\ApiPolicyController;
+
+Route::get('/countries', [ApiNomenclatureController::class, 'getCountries']);
+Route::get('/counties', [ApiNomenclatureController::class, 'getCounties']);
+Route::get('/cities/{county_code}', [ApiNomenclatureController::class, 'getCities']);
+
+Route::post('/offer', [ApiOfferController::class, 'getOffers']);
+Route::get('/offer/{offerId}', [ApiOfferController::class, 'getOfferPdf']);
+
+Route::post('/policy', [ApiPolicyController::class, 'getPolicy']);
