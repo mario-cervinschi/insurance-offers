@@ -1,95 +1,74 @@
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: 'http://localhost:8000/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 export class ServiceAPI {
   static async fetchNationalities() {
     try {
-      const response = await fetch('http://localhost:8000/api/countries')
-      if (!response.ok) throw new Error('Failed to fetch countries')
-      const data = await response.json()
-
-      return data.data || data
+      const response = await api.get('/countries');
+      // axios da throw la eroare automat => nu mai e nevoie de if (!response.ok)
+      return response.data.data || response.data;
+      // in  axios, 'response.data' e deja format JSON
     } catch (error) {
-      console.error(error)
+      console.error('Error fetching countries:', error);
+      return [];
+      // ^^ evitam sa returneze undefined, care poate face sa dea crash
     }
   }
 
   static async fetchCounties() {
     try {
-      const response = await fetch('http://localhost:8000/api/counties')
-      if (!response.ok) throw new Error('Failed to fetch counties')
-      const data = await response.json()
-
-      return data.data || data
+      const response = await api.get('/counties');
+      return response.data.data || response.data;
     } catch (error) {
-      console.error(error)
-      return []
+      console.error('Error fetching counties:', error);
+      return [];
     }
   }
 
   static async fetchCities(city) {
     try {
-      const response = await fetch('http://localhost:8000/api/cities/' + city)
-      if (!response.ok) throw new Error('Failed to fetch counties')
-      const data = await response.json()
-
-      return data.data || data
+      const response = await api.get(`/cities/${city}`);
+      return response.data.data || response.data;
     } catch (error) {
-      console.error(error)
-      return []
+      console.error('Error fetching cities:', error);
+      return [];
     }
   }
 
   static async fetchOffers(product) {
     try {
-      const response = await fetch('http://localhost:8000/api/offer', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(product),
-      })
-
-      if (!response.ok) {
-        throw new Error('API error')
-      }
-
-      const data = await response.json()
-      return data
+      const response = await api.post('/offer', product);
+      // method: 'POST' -> api.post(..), content-type este JSON impkicit in axios, si stringify se face direct
+      return response.data;
     } catch (error) {
-      console.error('Error fetching offers:', error)
-      throw error
+      console.error('Error fetching offers:', error);
+      throw error;
     }
   }
 
   static async fetchPolicy(request) {
     try {
-      const response = await fetch('http://localhost:8000/api/policy', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(request),
-      })
-
-      if (!response.ok) {
-        throw new Error('API error')
-      }
-
-      const data = await response.json()
-      return data
+      const response = await api.post('/policy', request);
+      return response.data;
     } catch (error) {
-      console.error('Error fetching offers:', error)
-      throw error
+      console.error('Error fetching policy:', error);
+      throw error;
     }
   }
 
   static async fetchOfferPdf(offerId) {
     try {
-      const response = await fetch(`http://localhost:8000/api/offer/${offerId}`)
-
-      if (!response.ok) {
-        throw new Error('API error')
-      }
-
-      const data = await response.json()
-      return data
+      const response = await api.get(`/offer/${offerId}`);
+      return response.data;
     } catch (error) {
-      console.error('Error fetching offer pdf:', error)
-      throw error
+      console.error('Error fetching offer PDF:', error);
+      throw error;
     }
   }
 }
