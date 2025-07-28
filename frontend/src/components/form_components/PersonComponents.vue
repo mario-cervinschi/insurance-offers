@@ -31,38 +31,38 @@ const props = defineProps({
 
 const isLegalEntity = ref(false);
 
-const businessName = ref(""); //req if legal entity
-const companyRegistryNumber = ref(""); //req if legal entity
-const caenCode = ref(""); //req if legal entity
-const lastName = ref(""); //req if NOT
-const firstName = ref(""); //req if NOT
+const businessName = ref("PAYPOINT SERVICES SRL"); //req if legal entity
+const companyRegistryNumber = ref("21307815"); //req if legal entity
+const caenCode = ref("6499"); //req if legal entity
+const lastName = ref("numexx"); //req if NOT
+const firstName = ref("numexx"); //req if NOT
 const isForeignPerson = ref(false);
-const taxId = ref(""); //REQ
+const taxId = ref("21307815"); //REQ
 const nationality = ref("RO"); //req if foreign person
 const citizenship = ref("RO"); //req if foreign person
 const gender = ref(""); //req if foreign person
 const birthdate = ref(""); //req if foreign person
-const email = ref("");
-const mobileNumber = ref("")
+const email = ref("comenzi1750409231@roviniete.ro");
+const mobileNumber = ref("0744444444")
 
 const identificationIdType = ref(''); //REQ
 const identificationIdNumber = ref(""); //REQ
 const identificationIssueAuthority = ref("");
 const identificationIssueDate = ref("");
 
-const drivingLicenseIssueDate = ref(""); //REQ if wanted idk
+const drivingLicenseIssueDate = ref("2024-04-03"); //REQ if wanted idk
 
-const addressCountry = ref("");
-const addressCounty = ref(""); // REQ
-const addressCity = ref("") // REQ
-const addressCityCode = ref("") // REQ
-const addressStreet = ref("") // REQ
-const addressHouseNumber = ref("");
-const addressBuilding = ref("");
-const addressStaircase = ref("");
-const addressApartment = ref("");
-const addressFloor = ref("");
-const addressPostcode = ref("");
+const addressCountry = ref("RO");
+const addressCounty = ref("B"); // REQ
+const addressCity = ref("BUCURESTI SECTORUL 3") // REQ
+const addressCityCode = ref("179169") // REQ
+const addressStreet = ref("principala") // REQ
+const addressHouseNumber = ref("1");
+const addressBuilding = ref("1");
+const addressStaircase = ref("1");
+const addressApartment = ref("1");
+const addressFloor = ref("1");
+const addressPostcode = ref("030161");
 
 const personHasDisability = ref(false);
 const personIsRetired = ref(false);
@@ -71,13 +71,18 @@ const nationalities = ref([]);
 const counties = ref([]);
 const cities = ref([]);
 
-const errorTaxId = ref('Camp necesar');
-const errorCUI = ref('Camp necesar');
+// const errorTaxId = ref('Camp necesar');
+const errorTaxId = ref('');
+// const errorCUI = ref('Camp necesar');
+const errorCUI = ref('');
 const errorBirthdate = ref('Camp necesar');
 const errorReleaseDateIdentif = ref('');
-const errorReleaseDateAuto = ref('Camp necesar');
-const errorEmail = ref('');
-const errorPhone = ref('');
+const errorReleaseDateAuto = ref('');
+// const errorReleaseDateAuto = ref('Camp necesar');
+const errorEmail = ref('OK');
+// const errorEmail = ref('');
+const errorPhone = ref('OK');
+// const errorPhone = ref('');
 
 const getUniqueId = (x) => `${props.componentId}_${x}`;
 const getUniqueName = (x) => `${props.componentId}_${x}`;

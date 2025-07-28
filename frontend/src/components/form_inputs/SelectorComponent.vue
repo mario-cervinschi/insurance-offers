@@ -82,7 +82,7 @@ defineExpose({
   <div class="flex flex-col gap-1">
     <label :for="id" class="text-white font-medium tracking-wide">{{ labelData }}</label>
     <select :id="id" v-model="localValue" :disabled="disabled" @focus="handleFocus" @blur="handleBlur"
-      @change="handleChange" class="focus:outline-none shadow rounded-md px-2 py-1 font-medium bg-white/20 text-white">
+      @change="handleChange" class="focus:outline-none shadow rounded-sm px-2 py-1 font-medium bg-white/20 text-white">
       <option v-for="option in options" :key="option.value" :value="option.value" class="text-black">
         {{ option.label }}
       </option>

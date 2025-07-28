@@ -234,8 +234,9 @@ onMounted(() => {
                         <Transition name="slide" mode="out-in">
                             <div v-if="currentStep === 1" key="step1" class="p-8">
                                 <h1 class="font-bold text-4xl text-white drop-shadow-lg mb-8">Detalii asigurare</h1>
-                                <PersonComponent :initialValues="personPolicyholderValues"
-                                    :initialEntity="personPolicyHolderEntity" componentId="person_info"
+                                <!-- :initialValues="personPolicyholderValues"
+                                 add this to PersonComponent below after removing the hard-coded data -->
+                                <PersonComponent :initialEntity="personPolicyHolderEntity" componentId="person_info"
                                     ref="personPolicyHolderViewRef">
                                 </PersonComponent>
                                 <div class="flex justify-center pb-6">
@@ -278,7 +279,9 @@ onMounted(() => {
 
                             <div v-else-if="currentStep === 3" key="step3" class="p-8">
                                 <h1 class="font-bold text-4xl text-white drop-shadow-lg mb-8">Detalii vehicul</h1>
-                                <VehicleComponent :initialValues="vehicleValues" ref="vehicleViewRef">
+                                <!-- :initialValues="vehicleValues" 
+                                 add this to VehicleComponent below after removing the hard-coded data-->
+                                <VehicleComponent ref="vehicleViewRef">
                                 </VehicleComponent>
                                 <div class="flex justify-between items-center pb-6">
                                     <button @click="goBack"

@@ -95,7 +95,7 @@ defineExpose({
     <label :for="id" class="text-white tracking-wide font-medium">{{ labelData }}</label>
     <input :id="id" :type="type" :min="min" :max="max" v-model="localValue" @focus="handleFocus" @blur="handleBlur"
       @input="handleInput"
-      :class="dark ? 'focus:outline-none shadow rounded-md px-2 py-1 font-medium  bg-white/20 text-white' : 'focus:outline-none shadow rounded-md px-2 py-1 font-medium  bg-white/80 text-white'" />
+      :class="dark ? 'focus:outline-none shadow rounded-sm px-2 py-1 font-medium  bg-white/20 text-white' : 'focus:outline-none shadow rounded-md px-2 py-1 font-medium  bg-white/80 text-white'" />
     <p class="text-xs font-thin min-h-[1.2rem]">
       <span v-if="shouldShowInfo" class="text-black font-normal text-xs">{{ infoMessage }}</span>
       <span v-if="shouldShowError" class="text-red-600 font-semibold text-xs">{{ errorMessage }}</span>
