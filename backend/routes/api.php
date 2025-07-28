@@ -14,7 +14,3 @@ Route::post('/offer', [ApiOfferController::class, 'getOffers']);
 Route::get('/offer/{offerId}', [ApiOfferController::class, 'getOfferPdf']);
 
 Route::post('/policy', [ApiPolicyController::class, 'getPolicy']);
-
-Route::get('/{any}', function () {
-    return view('app'); // or your blade file
-})->where('any', '.*');
