@@ -6,6 +6,7 @@ import { Service } from '@/service/service';
 import { ValidationService } from '@/service/validationService';
 import RadioComponent from '../form_inputs/RadioComponent.vue';
 import { ServiceAPI } from '@/service/apiService';
+import FileUploadComponent from '../form_inputs/FileUploadComponent.vue';
 
 const props = defineProps({
     initialValues: Object,
@@ -45,6 +46,7 @@ const vehicleCIV = ref("N432594");
 const currentMileage = ref("123012");
 const carForDisabled = ref(false);
 const isLeased = ref(false);
+const registrationDocument = ref(null);
 
 const errorPTI = ref('');
 // const errorTaxId = ref('Camp necesar');
@@ -56,6 +58,7 @@ const errorDisplacement = ref('');
 const errorPower = ref('');
 const errorSeats = ref('');
 const errorFuelType = ref('');
+const errorRegistrationDocument = ref('');
 
 watch(driverMobileNumber, (changedMobileNumber) => {
     if (changedMobileNumber === "") {
@@ -104,6 +107,7 @@ const validate = () => {
     errorPower.value = '';
     errorSeats.value = '';
     errorFuelType.value = '';
+    errorRegistrationDocument.value = '';
 
     if (!driverLastName.value) isValid = false;
     if (!driverFirstName.value) isValid = false;
@@ -179,6 +183,7 @@ const setValues = (data) => {
     currentMileage.value = data.currentMileage || '';
     carForDisabled.value = data.hasMobilityModifications || false;
     isLeased.value = data.isLeased || false;
+    // Note: registrationDocument is not set from data as it's a file upload
 };
 
 watch(() => props.initialValues, (newVal) => {
@@ -215,7 +220,8 @@ const getValues = () => {
         },
         currentMileage: currentMileage.value,
         hasMobilityModifications: carForDisabled.value,
-        isLeased: isLeased.value
+        isLeased: isLeased.value,
+        registrationDocument: registrationDocument.value
     }
 };
 
@@ -236,6 +242,24 @@ const getPTI = () => {
     return { expirationDatePti: ptiExpiryDate.value };
 }
 
+const handleRegistrationDocumentUpload = async (file) => {
+    if (!file) return;
+
+    try {
+        // Here you can add logic to upload the file to the backend
+        // For example:
+        // const formData = new FormData();
+        // formData.append('registrationDocument', file);
+        // formData.append('licensePlate', licensePlate.value);
+        // await ServiceAPI.uploadRegistrationDocument(formData);
+
+        console.log('Registration document uploaded:', file.name);
+    } catch (error) {
+        console.error('Error uploading registration document:', error);
+        errorRegistrationDocument.value = 'Eroare la incarcarea documentului';
+    }
+};
+
 defineExpose({
     getValues,
     getPTI,
@@ -246,6 +270,27 @@ defineExpose({
 
 <template>
     <div class="my-4">
+
+        <!-- Vehicle Registration Document Upload -->
+        <div class="mb-6">
+            <h5 class="text-xl font-semibold text-white mb-4">Documente vehicul</h5>
+            <hr class="mt-2 border-gray-200 mb-4">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FileUploadComponent
+                    :ref="(el) => setInputRef(el, 21)"
+                    id="registrationDocument"
+                    labelData="Talon (Document inmatriculare)"
+                    v-model="registrationDocument"
+                    :errorMessage="errorRegistrationDocument"
+                    :dark="true"
+                    accept="image/*"
+                    :maxSize="10 * 1024 * 1024"
+                    infoMessage="Incarcati o imagine cu talonul vehiculului (optional)"
+                    @fileSelected="handleRegistrationDocumentUpload"
+                />
+            </div>
+        </div>
 
         <h5 class="text-xl font-semibold text-white">Informatii sofer</h5>
         <hr class="mt-2 border-gray-200">
@@ -357,7 +402,5 @@ defineExpose({
                 ]" :name="'leased'" :dark="true" />
             </div>
         </div>
-
-
     </div>
 </template>
