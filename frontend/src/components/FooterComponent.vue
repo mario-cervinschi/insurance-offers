@@ -1,6 +1,5 @@
 <template>
-  <footer
-    class="grid grid-cols-4 py-12 px-12 bg-gradient-to-r from-indigo-900 via-slate-900 to-blue-900 text-white z-20">
+  <footer class="grid grid-cols-4 py-12 px-12 bg-extra-dark-blue text-white z-20">
     <div class="text-center">
       <h3 class="text-2xl font-bold mb-4">Asigurari Ieftine</h3>
     </div>

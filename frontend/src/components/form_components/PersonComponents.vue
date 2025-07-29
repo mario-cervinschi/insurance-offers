@@ -52,10 +52,10 @@ const identificationIssueDate = ref("");
 
 const drivingLicenseIssueDate = ref("2024-04-03"); //REQ if wanted idk
 
-const addressCountry = ref("RO");
-const addressCounty = ref("B"); // REQ
-const addressCity = ref("BUCURESTI SECTORUL 3") // REQ
-const addressCityCode = ref("179169") // REQ
+const addressCountry = ref("");
+const addressCounty = ref(""); // REQ
+const addressCity = ref("") // REQ
+const addressCityCode = ref("") // REQ
 const addressStreet = ref("principala") // REQ
 const addressHouseNumber = ref("1");
 const addressBuilding = ref("1");
