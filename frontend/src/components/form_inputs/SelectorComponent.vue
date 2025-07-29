@@ -61,7 +61,7 @@ defineExpose({ triggerValidation });
         @change="handleInput"
         class="focus:outline-none shadow rounded-[4px] px-[15px] pt-[22px] pb-[8px] font-jura font-bold w-full transition-all duration-200 appearance-none"
         :class="[
-          dark ? 'bg-white/20 text-white' : 'bg-white/80 text-black',
+          dark ? 'bg-white/[0.15] text-white' : 'bg-white/80 text-black',
         ]">
         <option v-for="option in options" :key="option.value" :value="option.value" class="text-black">
           {{ option.label }}

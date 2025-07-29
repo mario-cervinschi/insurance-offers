@@ -8,6 +8,24 @@ const api = axios.create({
 })
 
 export class ServiceAPI {
+  static async processRegistrationDocument(file) {
+    try {
+      const formData = new FormData()
+      formData.append('document', file)
+
+      const response = await api.post('/orice_endpoint', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+
+      return response.data
+    } catch (error) {
+      console.error('Error processing document:', error)
+      throw error
+    }
+  }
+
   static async fetchNationalities() {
     try {
       const response = await api.get('/countries')

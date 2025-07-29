@@ -113,7 +113,7 @@ defineExpose({
         @focus="handleFocus" @blur="handleBlur" @input="handleInput"
         class="focus:outline-none shadow rounded-[4px] px-[15px] pt-[22px] pb-[8px] font-jura font-bold w-full transition-all duration-200"
         :class="[
-          dark ? 'bg-white/20 text-white' : 'bg-white/80 text-white',
+          dark ? 'bg-white/[0.15] text-white' : 'bg-white/80 text-white',
           type === 'date' ? 'h-[54px] box-border' : ''
         ]" :style="type === 'date' ? 'box-sizing: border-box !important;' : ''" />
       <label :for="id"

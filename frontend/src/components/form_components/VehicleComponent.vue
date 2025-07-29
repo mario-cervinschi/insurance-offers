@@ -48,6 +48,8 @@ const carForDisabled = ref(false);
 const isLeased = ref(false);
 const registrationDocument = ref(null);
 
+const isProcessingDocument = ref(false);
+
 const errorPTI = ref('');
 // const errorTaxId = ref('Camp necesar');
 const errorTaxId = ref('');
@@ -246,17 +248,26 @@ const handleRegistrationDocumentUpload = async (file) => {
     if (!file) return;
 
     try {
-        // Here you can add logic to upload the file to the backend
-        // For example:
-        // const formData = new FormData();
-        // formData.append('registrationDocument', file);
-        // formData.append('licensePlate', licensePlate.value);
-        // await ServiceAPI.uploadRegistrationDocument(formData);
+        isProcessingDocument.value = true;
+        errorRegistrationDocument.value = '';
 
-        console.log('Registration document uploaded:', file.name);
+        const result = await ServiceAPI.processRegistrationDocument(
+            file
+        );
+
+        console.log('AI extracted:', result);
+        console.log('We uploaded', file);
+
+        if (result.data) {
+            setValues(result.data);
+        }
+
+        // uploadedDocumentId.value = result.documentId;
     } catch (error) {
         console.error('Error uploading registration document:', error);
         errorRegistrationDocument.value = 'Eroare la incarcarea documentului';
+    } finally {
+        isProcessingDocument.value = false;
     }
 };
 
@@ -277,18 +288,11 @@ defineExpose({
             <hr class="mt-2 border-gray-200 mb-4">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FileUploadComponent
-                    :ref="(el) => setInputRef(el, 21)"
-                    id="registrationDocument"
-                    labelData="Talon (Document inmatriculare)"
-                    v-model="registrationDocument"
-                    :errorMessage="errorRegistrationDocument"
-                    :dark="true"
-                    accept="image/*"
-                    :maxSize="10 * 1024 * 1024"
+                <FileUploadComponent :ref="(el) => setInputRef(el, 21)" id="registrationDocument"
+                    labelData="Talon (Document inmatriculare)" v-model="registrationDocument"
+                    :errorMessage="errorRegistrationDocument" :dark="true" accept="image/*" :maxSize="10 * 1024 * 1024"
                     infoMessage="Incarcati o imagine cu talonul vehiculului (optional)"
-                    @fileSelected="handleRegistrationDocumentUpload"
-                />
+                    @fileSelected="handleRegistrationDocumentUpload" />
             </div>
         </div>
 
