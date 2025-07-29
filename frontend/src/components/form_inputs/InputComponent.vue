@@ -45,7 +45,7 @@ const localValue = ref(props.modelValue);
 const isTouched = ref(false);
 const isFocused = ref(false);
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'blur']);
 
 const handleFocus = () => {
   isFocused.value = true;
@@ -54,6 +54,7 @@ const handleFocus = () => {
 const handleBlur = () => {
   isFocused.value = false;
   isTouched.value = true;
+  emit('blur', event);
 };
 
 const handleInput = () => {
