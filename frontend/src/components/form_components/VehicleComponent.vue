@@ -5,6 +5,7 @@ import SelectorComponent from '../form_inputs/SelectorComponent.vue';
 import { Service } from '@/service/service';
 import { ValidationService } from '@/service/validationService';
 import RadioComponent from '../form_inputs/RadioComponent.vue';
+import { ServiceAPI } from '@/service/apiService';
 
 const props = defineProps({
     initialValues: Object,
@@ -218,6 +219,19 @@ const getValues = () => {
     }
 };
 
+const handleLicensePlateBlur = async () => {
+    let jsonToSend = {
+        "licensePlate": licensePlate.value
+    }
+
+    try {
+        const data = await ServiceAPI.fetchDataForVehicle(jsonToSend);
+        setValues(data);
+    } catch (error) {
+        return;
+    }
+};
+
 const getPTI = () => {
     return { expirationDatePti: ptiExpiryDate.value };
 }
@@ -266,7 +280,7 @@ defineExpose({
         <hr class="mt-2">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <InputComponent :ref="(el) => setInputRef(el, 5)" id="licensePlate" labelData="Nr Inmatriculare" type="text"
-                v-model="licensePlate" :dark="true" :errorMessage="errorLicensePlate">
+                v-model="licensePlate" :dark="true" :errorMessage="errorLicensePlate" @blur="handleLicensePlateBlur">
             </InputComponent>
             <SelectorComponent :ref="(el) => setInputRef(el, 6)" id="registrationType" labelData="Status"
                 :options="Service.getRegistrationTypes()" v-model="registrationType"

@@ -201,13 +201,7 @@ watch(isForeignPerson, (val) => {
     }
 })
 
-let cityWatchInitialized = false;
-
 watch(addressCity, (newCityName) => {
-    if (!cityWatchInitialized) {
-        cityWatchInitialized = true;
-        return;
-    }
     const selectedCity = cities.value.find(city => city.name === newCityName);
     if (selectedCity) {
         addressCityCode.value = selectedCity.siruta || "";
@@ -250,6 +244,34 @@ watch(birthdate, (newBirthDate) => {
     const result = ValidationService.validateBirthdate(newBirthDate);
     errorBirthdate.value = result.message;
 });
+
+const handleTaxIdBlur = async () => {
+    let jsonToSend = {
+        "isLegalEntity": isLegalEntity.value,
+        "pin": taxId.value
+    }
+
+    try {
+        const data = await ServiceAPI.fetchDataForPerson(jsonToSend);
+        setValues(data);
+    } catch (error) {
+        return;
+    }
+};
+
+const handleCUIBlur = async () => {
+    let jsonToSend = {
+        "isLegalEntity": isLegalEntity.value,
+        "pin": companyRegistryNumber.value
+    }
+
+    try {
+        const data = await ServiceAPI.fetchDataForPerson(jsonToSend);
+        setValues(data);
+    } catch (error) {
+        return;
+    }
+};
 
 const triggerValidation = () => {
     inputRefs.value.forEach(inputRef => {
@@ -341,10 +363,10 @@ const validate = () => {
 const setValues = (values) => {
     if (!values) return;
 
-    isLegalEntity.value = values.legalEntity || false;
+    isLegalEntity.value = values.legalEntity || isLegalEntity.value || false;
     lastName.value = values.lastName || '';
     firstName.value = values.firstName || '';
-    isForeignPerson.value = values.isForeignPerson || false;
+    isForeignPerson.value = values.isForeignPerson || isForeignPerson.value || false;
     taxId.value = values.taxId || '';
     nationality.value = values.nationality || 'RO';
     citizenship.value = values.citizenship || 'RO';
@@ -445,6 +467,12 @@ defineExpose({
 
 onMounted(() => {
     fetchNationalities();
+    if (addressCountry.value) {
+        fetchCounties();
+        if (addressCounty.value) {
+            fetchCities(addressCounty.value)
+        }
+    }
 }) 
 </script>
 
@@ -465,7 +493,8 @@ onMounted(() => {
                 :errorMessage="businessName === '' ? 'Camp necesar' : ''">
             </InputComponent>
             <InputComponent :ref="(el) => setInputRef(el, 2)" :id="getUniqueId('regCode')" labelData="Cod inregistrare"
-                type="text" v-model="companyRegistryNumber" :dark="true" :errorMessage="errorCUI"></InputComponent>
+                type="text" v-model="companyRegistryNumber" @blur="handleCUIBlur" :dark="true" :errorMessage="errorCUI">
+            </InputComponent>
             <InputComponent :ref="(el) => setInputRef(el, 3)" :id="getUniqueId('caen')" labelData="CAEN" type="text"
                 v-model="caenCode" :dark="true" :errorMessage="caenCode === '' ? 'Camp necesar' : ''">
             </InputComponent>
@@ -478,7 +507,7 @@ onMounted(() => {
                 type="text" v-model="firstName" :dark="true" :errorMessage="firstName === '' ? 'Camp necesar' : ''">
             </InputComponent>
             <InputComponent :ref="(el) => setInputRef(el, 6)" :id="getUniqueId('taxId')" labelData="CNP" type="text"
-                v-model="taxId" :dark="true" :errorMessage="errorTaxId">
+                v-model="taxId" :dark="true" :errorMessage="errorTaxId" @blur="handleTaxIdBlur">
             </InputComponent>
         </div>
 
