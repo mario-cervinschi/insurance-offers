@@ -59,7 +59,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="bg-gradient-to-br from-blue-800 to-blue-800 via-indigo-500">
+    <div class="bg-dark-blue">
         <!-- Diagonal lines background overlay -->
         <div class="fixed inset-0 w-screen h-screen bg-[url('/assets/diagonal-lines.svg')] opacity-[10%] z-0"></div>
 
@@ -83,27 +83,30 @@ onMounted(() => {
                 </div>
 
                 <div v-else-if="validOffers.length === 0" class="text-center py-12">
-                    <div class="bg-gradient-to-br from-slate-900/50 via-blue-900/50 to-indigo-900/50 backdrop-blur-md rounded-2xl py-8 px-6 shadow-2xl border border-white/10">
-                        <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    <div
+                        class="bg-gradient-to-br from-slate-900/50 via-blue-900/50 to-indigo-900/50 backdrop-blur-md rounded-2xl py-8 px-6 shadow-2xl border border-white/10">
+                        <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                         <h3 class="text-xl font-semibold text-white mb-2 font-jura tracking-tighter">
                             Nu aveti oferte active
                         </h3>
                         <p class="text-gray-300 font-jura tracking-tighter">
-                            Ofertele expira dupa 10 zile de la creare. Creeaza o noua oferta pentru a vedea rezultatele aici.
+                            Ofertele expira dupa 10 zile de la creare. Creeaza o noua oferta pentru a vedea rezultatele
+                            aici.
                         </p>
-                        <router-link
-                            to="/"
-                            class="inline-block mt-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold rounded-lg py-3 px-8 shadow-lg hover:shadow-xl transition-all duration-300"
-                        >
+                        <router-link to="/"
+                            class="inline-block mt-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold rounded-lg py-3 px-8 shadow-lg hover:shadow-xl transition-all duration-300">
                             Creeaza oferta
                         </router-link>
                     </div>
                 </div>
 
                 <div v-else>
-                    <div class="bg-gradient-to-br from-slate-900/50 via-blue-900/50 to-indigo-900/50 backdrop-blur-md rounded-2xl shadow-2xl border border-white/10 overflow-hidden">
+                    <div
+                        class="bg-gradient-to-br from-slate-900/50 via-blue-900/50 to-indigo-900/50 backdrop-blur-md rounded-2xl shadow-2xl border border-white/10 overflow-hidden">
                         <div class="p-6">
                             <h2 class="text-2xl font-bold text-white mb-4 font-jura tracking-tighter">
                                 Oferte active ({{ validOffers.length }})
@@ -112,12 +115,8 @@ onMounted(() => {
                                 Ofertele sunt valabile timp de 10 zile de la creare
                             </p>
 
-                            <ResultComponent
-                                @change-pdf="getPdfUrl"
-                                @loading-pdf="isLoadingOfferPdf"
-                                :loading="false"
-                                :offers="validOffers"
-                            />
+                            <ResultComponent @change-pdf="getPdfUrl" @loading-pdf="isLoadingOfferPdf" :loading="false"
+                                :offers="validOffers" />
                         </div>
                     </div>
                 </div>

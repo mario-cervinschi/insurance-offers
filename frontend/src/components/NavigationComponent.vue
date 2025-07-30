@@ -41,7 +41,7 @@ function logout() {
     <div class="tracking-tight text-3xl font-jura font-bold">Asigurari Ieftine</div>
     <div class="flex space-x-12 items-center">
       <a href="/" class="hover:text-blue-300 transition font-jura font-bold">Home</a>
-      <a href="/my-offers" class="hover:text-blue-300 transition font-jura font-bold">Ofertele mele</a>
+      <!-- <a href="/my-offers" class="hover:text-blue-300 transition font-jura font-bold">Ofertele mele</a> -->
       <a href="#" class="hover:text-blue-300 transition font-jura font-bold">Despre</a>
       <a href="#" class="hover:text-blue-300 transition font-jura font-bold">Contact</a>
 
