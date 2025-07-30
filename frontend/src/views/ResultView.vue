@@ -110,6 +110,15 @@ onMounted(async () => {
         <!-- Result cards -->
         <div class="relative z-10 pt-8 pb-12">
             <div class="max-w-4xl mx-auto px-6 mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-white font-jura tracking-tighter">Rezultate cautare</h2>
+                    <router-link 
+                        to="/my-offers" 
+                        class="text-blue-300 hover:text-blue-200 font-jura tracking-tighter transition-colors duration-200"
+                    >
+                        Vezi ofertele mele →
+                    </router-link>
+                </div>
                 <ResultComponent @change-pdf="getPdfUrl" @loading-pdf="isLoadingOfferPdf" @go-back="goBackToForm"
                     :loading="isLoading" :offers="offers"></ResultComponent>
             </div>
