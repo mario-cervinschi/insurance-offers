@@ -64,8 +64,8 @@ defineExpose({
         <div class="w-2 h-2 bg-white rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200">
         </div>
       </div>
-      <span class="ml-[6px] font-medium font-jura tracking-tighter transition-colors duration-200"
-        :class="dark ? 'text-white group-hover:text-blue-300' : 'text-black group-hover:text-blue-600'">
+      <span class="ml-[6px] font-medium text-lg font-jura tracking-tighter transition-colors duration-200"
+        :class="dark ? 'text-gray-100/90 group-hover:text-blue-300' : 'text-black group-hover:text-blue-600'">
         {{ option.label }}
       </span>
     </label>

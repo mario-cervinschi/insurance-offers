@@ -284,22 +284,22 @@ defineExpose({
 
         <!-- Vehicle Registration Document Upload -->
         <div class="mb-6">
-            <h5 class="text-xl font-semibold text-white mb-4">Documente vehicul</h5>
-            <hr class="mt-2 border-gray-200 mb-4">
+            <h5 class="text-xl font-semibold text-white font-jura tracking-tighter">Incarca talon (optional)</h5>
+            <hr class="mt-2 border-gray-200 mb-2">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FileUploadComponent :ref="(el) => setInputRef(el, 21)" id="registrationDocument"
-                    labelData="Talon (Document inmatriculare)" v-model="registrationDocument"
-                    :errorMessage="errorRegistrationDocument" :dark="true" accept="image/*" :maxSize="10 * 1024 * 1024"
+            <div class="gap-4">
+                <FileUploadComponent :ref="(el) => setInputRef(el, 21)" id="registrationDocument" labelData=""
+                    v-model="registrationDocument" :errorMessage="errorRegistrationDocument" :dark="true"
+                    accept="image/*" :maxSize="10 * 1024 * 1024"
                     infoMessage="Incarcati o imagine cu talonul vehiculului (optional)"
                     @fileSelected="handleRegistrationDocumentUpload" />
             </div>
         </div>
 
-        <h5 class="text-xl font-semibold text-white">Informatii sofer</h5>
-        <hr class="mt-2 border-gray-200">
+        <h5 class="text-xl font-semibold text-white font-jura tracking-tighter">Informatii sofer</h5>
+        <hr class="mt-2 border-gray-200 mb-4">
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-x-4">
             <InputComponent :ref="(el) => setInputRef(el, 0)" class="col-span-1" id="driverLastName" labelData="Nume"
                 type="text" v-model="driverLastName" :dark="true"
                 :errorMessage="driverLastName === '' ? 'Camp necesar' : ''">
@@ -313,7 +313,7 @@ defineExpose({
             </InputComponent>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-x-4">
             <div></div>
             <InputComponent :ref="(el) => setInputRef(el, 3)" id="driverIdentif" labelData="Serie / numar" type="text"
                 v-model="driverIdentif" :dark="true" :errorMessage="driverIdentif === '' ? 'Camp necesar' : ''">
@@ -325,9 +325,9 @@ defineExpose({
             <div></div>
         </div>
 
-        <h5 class="text-xl font-semibold text-white">Informatii vehicul</h5>
-        <hr class="mt-2">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <h5 class="text-xl font-semibold text-white font-jura tracking-tighter">Informatii vehicul</h5>
+        <hr class="mt-2 mb-4">
+        <div class="grid grid-cols-2 gap-x-4">
             <InputComponent :ref="(el) => setInputRef(el, 5)" id="licensePlate" labelData="Nr Inmatriculare" type="text"
                 v-model="licensePlate" :dark="true" :errorMessage="errorLicensePlate" @blur="handleLicensePlateBlur">
             </InputComponent>
@@ -342,7 +342,7 @@ defineExpose({
                 :errorMessage="vehicleType === '' ? 'Camp necesar' : ''" />
         </div>
 
-        <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
+        <div class="grid grid-cols-3 md:grid-cols-6 gap-x-4">
             <InputComponent :ref="(el) => setInputRef(el, 9)" id="brand" labelData="Brand" type="text" v-model="brand"
                 :dark="true" :errorMessage="brand === '' ? 'Camp necesar' : ''">
             </InputComponent>
@@ -363,7 +363,7 @@ defineExpose({
             </InputComponent>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-4">
+        <div class="grid md:grid-cols-3 gap-x-4">
             <InputComponent class="col-span-1" :ref="(el) => setInputRef(el, 15)" id="seats" labelData="Locuri"
                 type="number" v-model="seats" :dark="true" :errorMessage="errorSeats">
             </InputComponent>
@@ -384,22 +384,23 @@ defineExpose({
             </InputComponent>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-x-4">
             <div class="hidden md:block"></div>
             <InputComponent class="md:col-span-2" :ref="(el) => setInputRef(el, 20)" id="currentMileage"
                 labelData="Numar km" type="number" v-model="currentMileage" :dark="true"
                 :errorMessage="currentMileage === '' ? 'Camp necesar' : ''">
             </InputComponent>
             <div class="hidden md:block"></div>
-            <div class="flex gap-2 items-center flex-1 mt-6 col-span-2 md:justify-normal justify-center">
-                <p class="mb-1 text-white tracking-wide font-medium">Modificari dizabilitati</p>
+            <div class="flex gap-2 items-center flex-1 col-span-2 md:justify-normal justify-center">
+                <p class="font-medium text-lg text-gray-100/90 font-jura tracking-tighter">Modificari dizabilitati
+                </p>
                 <RadioComponent v-model="carForDisabled" :options="[
                     { label: 'Nu', value: false },
                     { label: 'Da', value: true }
                 ]" :name="'disabled'" :dark="true" />
             </div>
-            <div class="flex gap-2 items-center flex-1 mt-6 col-span-2 md:justify-end justify-center">
-                <p class="mb-1 text-white tracking-wide font-medium">Leased</p>
+            <div class="flex gap-2 items-center flex-1 col-span-2 md:justify-end justify-center">
+                <p class="font-medium text-lg text-gray-100/90 font-jura tracking-tighter">Leased</p>
                 <RadioComponent v-model="isLeased" :options="[
                     { label: 'Nu', value: false },
                     { label: 'Da', value: true }

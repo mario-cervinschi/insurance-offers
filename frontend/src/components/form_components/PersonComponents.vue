@@ -52,10 +52,10 @@ const identificationIssueDate = ref("");
 
 const drivingLicenseIssueDate = ref("2024-04-03"); //REQ if wanted idk
 
-const addressCountry = ref("");
-const addressCounty = ref(""); // REQ
-const addressCity = ref("") // REQ
-const addressCityCode = ref("") // REQ
+const addressCountry = ref("RO");
+const addressCounty = ref("B"); // REQ
+const addressCity = ref("BUCURESTI SECTORUL 3") // REQ
+const addressCityCode = ref("179169") // REQ
 const addressStreet = ref("principala") // REQ
 const addressHouseNumber = ref("1");
 const addressBuilding = ref("1");
@@ -626,7 +626,7 @@ onMounted(() => {
         <hr class="mt-2 border-gray-200">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
             <div class="flex gap-2 items-center justify-center sm:justify-normal flex-1">
-                <p class="font-medium text-white font-jura tracking-tighter">Dizabilitati</p>
+                <p class="font-medium text-lg text-gray-100/90 font-jura tracking-tighter">Dizabilitati</p>
                 <RadioComponent v-model="personHasDisability" :options="[
                     { label: 'Nu', value: false },
                     { label: 'Da', value: true }
@@ -634,7 +634,7 @@ onMounted(() => {
             </div>
 
             <div class="flex gap-2 items-center justify-center sm:justify-normal flex-1">
-                <p class="font-medium text-white font-jura tracking-tighter">Pensionar</p>
+                <p class="font-medium text-lg text-gray-100/90 font-jura tracking-tighter">Pensionar</p>
                 <RadioComponent v-model="personIsRetired" :options="[
                     { label: 'Nu', value: false },
                     { label: 'Da', value: true }

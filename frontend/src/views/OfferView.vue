@@ -244,7 +244,7 @@ onMounted(() => {
                                 </PersonComponent>
                                 <div class="flex justify-center pb-6">
                                     <button @click="goToStepTwo"
-                                        class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold rounded-lg py-3 px-16 shadow-lg hover:shadow-xl transition-all duration-300">
+                                        class="bg-medium-ocean/40 border-[1.2px] hover:bg-medium-ocean/60 border-light-blue/90 text-white font-jura font-semibold transition-all duration-200 rounded py-3 px-[34px] shadow-lg hover:shadow-xl">
                                         Continua
                                     </button>
                                 </div>
@@ -254,9 +254,10 @@ onMounted(() => {
                                 <h1 class="font-bold text-4xl text-white drop-shadow-lg mb-8 font-jura tracking-tight">
                                     Detalii
                                     proprietar</h1>
-                                <p class="text-xl font-semibold text-white font-jura tracking-tighter">Date diferite
+                                <p class="text-xl font-semibold text-white font-jura text-center tracking-tighter">Date
+                                    diferite
                                     pentru proprietar?</p>
-                                <div class="flex flex-row">
+                                <div class="flex flex-row justify-center">
                                     <RadioComponent v-model="copyValues" :options="[
                                         { label: 'Nu', value: false },
                                         { label: 'Da', value: true }
@@ -273,30 +274,31 @@ onMounted(() => {
 
                                 <div class="flex justify-between items-center pb-6">
                                     <button @click="goBack"
-                                        class="bg-transparent border-[1.2px] hover:bg-light-blue/10 border-light-blue/90 text-white font-jura font-semibold transition-all duration-200 rounded py-3 px-[34px] mb-6 shadow-lg hover:shadow-xl">
+                                        class="bg-transparent border-[1.2px] hover:bg-light-blue/10 border-light-blue/90 text-white font-jura font-semibold transition-all duration-200 rounded py-3 px-[34px] shadow-lg hover:shadow-xl">
                                         <!-- class="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-semibold rounded-lg py-3 px-16 shadow-lg hover:shadow-xl transition-all duration-300"> -->
                                         Înapoi
                                     </button>
                                     <button @click="goToStepThree"
-                                        class="bg-medium-ocean/40 border-[1.2px] hover:bg-medium-ocean/60 border-light-blue/90 text-white font-jura font-semibold transition-all duration-200 rounded py-3 px-[34px] mb-6 shadow-lg hover:shadow-xl">
+                                        class="bg-medium-ocean/40 border-[1.2px] hover:bg-medium-ocean/60 border-light-blue/90 text-white font-jura font-semibold transition-all duration-200 rounded py-3 px-[34px] shadow-lg hover:shadow-xl">
                                         Continua
                                     </button>
                                 </div>
                             </div>
 
                             <div v-else-if="currentStep === 3" key="step3" class="p-8">
-                                <h1 class="font-bold text-4xl text-white drop-shadow-lg mb-8">Detalii vehicul</h1>
+                                <h1 class="font-bold text-4xl text-white drop-shadow-lg mb-8 font-jura tracking-tight">
+                                    Detalii vehicul</h1>
                                 <!-- :initialValues="vehicleValues" 
                                  add this to VehicleComponent below after removing the hard-coded data-->
                                 <VehicleComponent ref="vehicleViewRef">
                                 </VehicleComponent>
                                 <div class="flex justify-between items-center pb-6">
                                     <button @click="goBack"
-                                        class="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-semibold rounded-lg py-3 px-16 shadow-lg hover:shadow-xl transition-all duration-300">
+                                        class="bg-transparent border-[1.2px] hover:bg-light-blue/10 border-light-blue/90 text-white font-jura font-semibold transition-all duration-200 rounded py-3 px-[34px] shadow-lg hover:shadow-xl">
                                         Inapoi
                                     </button>
                                     <button @click="goGetOffers"
-                                        class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold rounded-lg py-3 px-16 shadow-lg hover:shadow-xl transition-all duration-300">
+                                        class="bg-medium-ocean/40 border-[1.2px] hover:bg-medium-ocean/60 border-light-blue/90 text-white font-jura font-semibold transition-all duration-200 rounded py-3 px-[34px] shadow-lg hover:shadow-xl">
                                         Vezi ofertele!
                                     </button>
                                 </div>
