@@ -479,7 +479,7 @@ onMounted(() => {
 <template>
     <div class="my-4">
 
-        <h5 class="text-xl font-semibold text-white">Informatii personale</h5>
+        <h5 class="text-xl font-semibold text-white font-jura tracking-tighter">Informatii personale</h5>
         <hr class="mt-2 border-gray-200">
 
         <RadioComponent v-model="isLegalEntity" :options="[
@@ -553,10 +553,10 @@ onMounted(() => {
         </div>
 
         <div v-if="!isLegalEntity">
-            <h5 class="text-xl font-semibold text-white">Date identificare</h5>
+            <h5 class="text-xl font-semibold text-white font-jura tracking-tighter">Date identificare</h5>
             <hr class="mt-2 border-gray-200">
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4">
                 <SelectorComponent :ref="(el) => setInputRef(el, 11)" :id="getUniqueId('idType')" labelData="Tip"
                     :options="[{ 'value': 'CI', 'label': 'CI' }, { 'value': 'PASSPORT', 'label': 'Pasaport' }]"
                     v-model="identificationIdType" :errorMessage="identificationIdType === '' ? 'Camp necesar' : ''" />
@@ -573,18 +573,18 @@ onMounted(() => {
             </div>
         </div>
 
-        <h5 class="text-xl font-semibold text-white">Date permis auto</h5>
+        <h5 class="text-xl font-semibold text-white font-jura tracking-tighter">Date permis auto</h5>
         <hr class="mt-2 border-gray-200">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
             <InputComponent :ref="(el) => setInputRef(el, 13)" :id="getUniqueId('driverLicense')"
                 labelData="Data eliberare permis" type="date" v-model="drivingLicenseIssueDate" :dark="true"
                 :errorMessage="errorReleaseDateAuto">
             </InputComponent>
         </div>
 
-        <h5 class="text-xl font-semibold text-white">Adresa</h5>
+        <h5 class="text-xl font-semibold text-white font-jura tracking-tighter">Adresa</h5>
         <hr class="mt-2 border-gray-200">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4">
             <SelectorComponent :ref="(el) => setInputRef(el, 14)" :id="getUniqueId('country')" labelData="Tara"
                 :options="countryOptions" v-model="addressCountry" @click="onNationalityClick"
                 :errorMessage="addressCountry === '' ? 'Camp necesar' : ''" />
@@ -622,11 +622,11 @@ onMounted(() => {
             </InputComponent>
         </div>
 
-        <h5 class="text-xl font-semibold text-white">Date aditionale</h5>
+        <h5 class="text-xl font-semibold text-white font-jura tracking-tighter">Date aditionale</h5>
         <hr class="mt-2 border-gray-200">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
             <div class="flex gap-2 items-center justify-center sm:justify-normal flex-1">
-                <p class="mb-1 text-white tracking-wide font-medium">Dizabilitati</p>
+                <p class="font-medium text-lg text-gray-100/90 font-jura tracking-tighter">Dizabilitati</p>
                 <RadioComponent v-model="personHasDisability" :options="[
                     { label: 'Nu', value: false },
                     { label: 'Da', value: true }
@@ -634,7 +634,7 @@ onMounted(() => {
             </div>
 
             <div class="flex gap-2 items-center justify-center sm:justify-normal flex-1">
-                <p class="mb-1 text-white tracking-wide font-medium">Pensionar</p>
+                <p class="font-medium text-lg text-gray-100/90 font-jura tracking-tighter">Pensionar</p>
                 <RadioComponent v-model="personIsRetired" :options="[
                     { label: 'Nu', value: false },
                     { label: 'Da', value: true }

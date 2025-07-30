@@ -103,7 +103,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="bg-gradient-to-br from-blue-800 to-blue-800 via-indigo-500">
+    <div class="bg-dark-blue">
         <!-- Diagonal lines background overlay -->
         <div class="fixed inset-0 w-screen h-screen bg-[url('/assets/diagonal-lines.svg')] opacity-[10%] z-0"></div>
 
