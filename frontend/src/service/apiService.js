@@ -114,6 +114,16 @@ export class ServiceAPI {
       throw error
     }
   }
+
+  static async fetchUserOffers(userData) {
+    try {
+      const response = await api.post('/user/offers', userData)
+      return response.data
+    } catch (error) {
+      console.error('Error fetching user offers:', error)
+      throw error
+    }
+  }
 }
 
 export default apiLogin

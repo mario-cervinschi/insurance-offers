@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
+import MyOffersView from '@/views/MyOffersView.vue'
 import apiLogin from '@/service/apiService'
 
 const router = createRouter({
@@ -60,7 +61,7 @@ const router = createRouter({
     {
       path: '/offers',
       name: 'offers',
-      // component: () => import('@/views/OffersView.vue'),
+      component: MyOffersView,
       beforeEnter: async (to, from, next) => {
         // try {
         //   await apiLogin.get('/user')
