@@ -7,6 +7,11 @@ const api = axios.create({
   },
 })
 
+const apiLogin = axios.create({
+  baseURL: 'http://localhost:8000/api',
+  withCredentials: true,
+})
+
 export class ServiceAPI {
   static async processRegistrationDocument(file) {
     try {
@@ -110,3 +115,5 @@ export class ServiceAPI {
     }
   }
 }
+
+export default apiLogin
