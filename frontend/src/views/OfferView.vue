@@ -169,7 +169,6 @@ onMounted(() => {
         <div class="fixed inset-0 w-screen h-screen bg-[url('/assets/diagonal-lines.svg')] opacity-[10%] z-0"></div>
         <div class="relative z-10">
             <div class="relative z-10 pt-8 pb-12">
-
                 <div class="max-w-4xl mx-auto px-6 mb-8">
                     <div
                         class="bg-medium-ocean/10 backdrop-blur-md rounded-2xl py-6 px-8 shadow-2xl border border-white/10">

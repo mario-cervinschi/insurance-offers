@@ -17,8 +17,7 @@ export class ServiceAPI {
     try {
       const formData = new FormData()
       formData.append('document', file)
-
-      const response = await api.post('/orice_endpoint', formData, {
+      const response = await api.post('/vehicles/process-registration-document', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
