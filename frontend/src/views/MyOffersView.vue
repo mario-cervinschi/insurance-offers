@@ -1,27 +1,65 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { ServiceAPI } from '@/service/apiService';
 import LoadingComponent from '@/components/LoadingComponent.vue';
 import ResultComponent from '@/components/form_components/ResultComponent.vue';
 
-const isLoading = ref(true);
-const offers = ref([]);
+const isLoading = ref(false);
 const pdfUrl = ref('');
 const isLoadingOffer = ref(false);
 
-// Mock user data - this will be replaced with actual authentication
-const currentUser = ref({
-    email: 'comenzi1750409231@roviniete.ro',
-    cnp: '1940928205567'
-});
+// Mock offers data - this will be replaced when the backend API is ready
+const mockOffers = [
+    {
+        offerId: 1,
+        businessName: 'asirom',
+        premiumAmount: 1200,
+        premiumAmountNet: 1000,
+        currency: 'RON',
+        isValid: true,
+        createdAt: new Date().toISOString(),
+        startDate: '01.01.2024',
+        endDate: '31.12.2024',
+        bonusMalusClass: 'B0',
+        greenCardExclusions: 'N/A',
+        offerExpiryDate: '31.12.2024'
+    },
+    {
+        offerId: 2,
+        businessName: 'allianz',
+        premiumAmount: 1350,
+        premiumAmountNet: 1125,
+        currency: 'RON',
+        isValid: true,
+        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days ago
+        startDate: '01.01.2024',
+        endDate: '31.12.2024',
+        bonusMalusClass: 'B0',
+        greenCardExclusions: 'N/A',
+        offerExpiryDate: '31.12.2024'
+    },
+    {
+        offerId: 3,
+        businessName: 'generali',
+        premiumAmount: 1100,
+        premiumAmountNet: 916,
+        currency: 'RON',
+        isValid: false, // This one should be filtered out
+        createdAt: new Date().toISOString(),
+        startDate: '01.01.2024',
+        endDate: '31.12.2024',
+        bonusMalusClass: 'B0',
+        greenCardExclusions: 'N/A',
+        offerExpiryDate: '31.12.2024'
+    }
+];
 
 const validOffers = computed(() => {
     const now = new Date();
     const tenDaysAgo = new Date(now.getTime() - (10 * 24 * 60 * 60 * 1000));
 
-    return offers.value.filter(offer => {
+    return mockOffers.filter(offer => {
         // Check if offer is valid and not older than 10 days
-        const offerDate = new Date(offer.createdAt || offer.date);
+        const offerDate = new Date(offer.createdAt);
         return offer.isValid && offerDate > tenDaysAgo;
     });
 });
@@ -39,22 +77,10 @@ const closePdf = () => {
     pdfUrl.value = '';
 };
 
-const fetchUserOffers = async () => {
-    try {
-        isLoading.value = true;
-        // This will be replaced with actual API call
-        const response = await ServiceAPI.fetchUserOffers(currentUser.value);
-        offers.value = response.offers || [];
-    } catch (error) {
-        console.error('Error fetching user offers:', error);
-        offers.value = [];
-    } finally {
-        isLoading.value = false;
-    }
-};
-
 onMounted(() => {
-    fetchUserOffers();
+    // For now, we'll use mock data
+    // When the API is ready, we'll replace this with actual API call
+    // offers.value = mockOffers;
 });
 </script>
 

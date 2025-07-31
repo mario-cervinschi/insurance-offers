@@ -113,7 +113,7 @@ onMounted(async () => {
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-white font-jura tracking-tighter">Rezultate cautare</h2>
                     <router-link 
-                        to="/my-offers" 
+                        to="/offers" 
                         class="text-blue-300 hover:text-blue-200 font-jura tracking-tighter transition-colors duration-200"
                     >
                         Vezi ofertele mele →
