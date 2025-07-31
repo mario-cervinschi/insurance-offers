@@ -13,7 +13,7 @@ const currentUser = ref({
 const fetchUserVehicles = async () => {
   try {
     isLoading.value = true;
-    const response = await ServiceAPI.fetchUserVehicles(currentUser.value);
+    const response = await ServiceAPI.fetchDataForVehicle(currentUser.value);
     vehicles.value = response.vehicles || [];
   } catch (error) {
     console.error('Error fetching user vehicles:', error);
@@ -57,7 +57,7 @@ onMounted(() => {
             class="bg-gradient-to-br from-slate-900/50 via-blue-900/50 to-indigo-900/50 backdrop-blur-md rounded-2xl py-8 px-6 shadow-2xl border border-white/10">
             <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
             <h3 class="text-xl font-semibold text-white mb-2 font-jura tracking-tighter">
               Nicio masina inregistrata
@@ -77,8 +77,9 @@ onMounted(() => {
               </h2>
               <div class="grid gap-4 md:grid-cols-2">
                 <div v-for="vehicle in vehicles" :key="vehicle.vin"
-                     class="bg-white/10 text-white rounded-xl p-4 shadow-lg border border-white/10">
-                  <h3 class="text-xl font-semibold font-jura tracking-tight">{{ vehicle.brand }} {{ vehicle.commercialModel }}</h3>
+                  class="bg-white/10 text-white rounded-xl p-4 shadow-lg border border-white/10">
+                  <h3 class="text-xl font-semibold font-jura tracking-tight">{{ vehicle.brand }} {{
+                    vehicle.commercialModel }}</h3>
                   <p class="text-sm text-white/70 font-jura">Numar: {{ vehicle.licensePlate }}</p>
                   <p class="text-sm text-white/70 font-jura">VIN: {{ vehicle.vin }}</p>
                   <p class="text-sm text-white/70 font-jura">An: {{ vehicle.yearOfConstruction }}</p>
