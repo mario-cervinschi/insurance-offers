@@ -104,9 +104,9 @@ export class ServiceAPI {
     }
   }
 
-  static async fetchDataForVehicle(jsonToSend) {
+  static async fetchDataForVehicle(userData) {
     try {
-      const response = await api.post(`/vehicle`, jsonToSend)
+      const response = await api.post(`/vehicle`, userData)
       return response.data
     } catch (error) {
       console.log(error)
@@ -114,7 +114,15 @@ export class ServiceAPI {
     }
   }
 
-
+  static async fetchUserOffers(userData) {
+    try {
+      const response = await api.post('/user/offers', userData)
+      return response.data
+    } catch (error) {
+      console.error('Error fetching user offers:', error)
+      throw error
+    }
+  }
 }
 
 export default apiLogin

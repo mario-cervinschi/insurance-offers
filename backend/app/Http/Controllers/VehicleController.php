@@ -78,4 +78,56 @@ class VehicleController extends Controller
 
         return $data;
     }
+
+    public function getVehicleLight(Request $request)
+    {
+        $token = ApiAuthController::getToken();
+        $url = config('services.lifeishard.api_url') . 'vehicle';
+
+        $query = [];
+
+        if ($request->has('licensePlate')) {
+            $query['licensePlate'] = $request->query('licensePlate');
+        }
+
+        if ($request->has('vin')) {
+            $query['vin'] = $request->query('vin');
+        }
+
+        if (empty($query)) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Either licensePlate or vin must be provided.'
+            ], 400);
+        }
+
+        try {
+            $response = Http::withoutVerifying()
+                ->withHeaders([
+                    'Token' => $token,
+                    'Accept' => 'application/json'
+                ])
+                ->get($url, $query);
+
+            if ($response->successful()) {
+                return response()->json([
+                    'error' => false,
+                    'data' => $response->json()
+                ], 200);
+            }
+
+            return response()->json([
+                'error' => true,
+                'message' => isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'
+            ], $response->status());
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Server error',
+                'exception' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 }
