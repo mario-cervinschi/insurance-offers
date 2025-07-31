@@ -71,4 +71,34 @@ export class ServiceAPI {
       throw error;
     }
   }
+
+  static async fetchDataForPerson(jsonToSend) {
+    try {
+      const response = await api.post(`/person`, jsonToSend)
+      return response.data
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  static async fetchDataForVehicle(userData) {
+    try {
+      const response = await api.post(`/vehicle`, userData)
+      return response.data
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  static async fetchUserOffers(userData) {
+    try {
+      const response = await api.post('/user/offers', userData)
+      return response.data
+    } catch (error) {
+      console.error('Error fetching user offers:', error)
+      throw error
+    }
+  }
 }
