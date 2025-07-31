@@ -49,14 +49,15 @@ defineExpose({
   <div class="m-4">
     <div class="grid grid-cols-1 gap-3">
       <div class="flex flex-col">
-        <InputComponent id="startDate" labelData="Data start" type="date" v-model="startDate"></InputComponent>
-        <p class="absolute text-red-600 font-thin text-xs tracking-wider mt-[62px]">{{ errorDate }}</p>
+        <InputComponent id="startDate" labelData="Data start" type="date" v-model="startDate"
+          :errorMessage="errorDate.valueOf()"></InputComponent>
+        <!-- <p class="absolute text-red-600 font-thin text-xs tracking-wider mt-[62px]">{{ errorDate }}</p> -->
       </div>
 
       <div class="flex flex-col">
         <InputComponent id="termTime" labelData="Durata (luni)" type="number" v-model="termTime" :min="1" :max="12">
         </InputComponent>
-        <p v-if="termTime.valueOf() === ''" class="absolute text-red-600 font-thin text-xs tracking-wider mt-[62px]">Camp necesar</p>
+        <!-- <p v-if="termTime.valueOf() === ''" class="absolute text-red-600 font-thin text-xs tracking-wider mt-[62px]">Camp necesar</p> -->
       </div>
 
       <div class="flex flex-col">
@@ -65,14 +66,8 @@ defineExpose({
         { label: '4', value: 4 },
         { label: '12', value: 12 }]" v-model="installmentCount">
         </SelectorComponent>
-        <p v-if="installmentCount.valueOf() === ''" class="absolute text-red-600 font-thin text-xs tracking-wider mt-[62px]">Camp necesar</p>
+        <!-- <p v-if="installmentCount.valueOf() === ''" class="absolute text-red-600 font-thin text-xs tracking-wider mt-[62px]">Camp necesar</p> -->
       </div>
-
-      <!-- <div class="flex flex-col">
-        <label for="comissionPercent" class="mb-1 font-medium">Limita comision (%)</label>
-        <input id="comissionPercent" type="number" v-model="comissionPercentLimit"
-          class="border-2 border-black rounded-md px-2 py-1" min="0" max="100" step="0.1" />
-      </div> -->
     </div>
   </div>
 </template>

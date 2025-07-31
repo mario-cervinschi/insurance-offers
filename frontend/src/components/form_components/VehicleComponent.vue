@@ -5,6 +5,8 @@ import SelectorComponent from '../form_inputs/SelectorComponent.vue';
 import { Service } from '@/service/service';
 import { ValidationService } from '@/service/validationService';
 import RadioComponent from '../form_inputs/RadioComponent.vue';
+import { ServiceAPI } from '@/service/apiService';
+import FileUploadComponent from '../form_inputs/FileUploadComponent.vue';
 
 const props = defineProps({
     initialValues: Object,
@@ -44,6 +46,9 @@ const vehicleCIV = ref("N432594");
 const currentMileage = ref("123012");
 const carForDisabled = ref(false);
 const isLeased = ref(false);
+const registrationDocument = ref(null);
+
+const isProcessingDocument = ref(false);
 
 const errorPTI = ref('');
 // const errorTaxId = ref('Camp necesar');
@@ -55,6 +60,7 @@ const errorDisplacement = ref('');
 const errorPower = ref('');
 const errorSeats = ref('');
 const errorFuelType = ref('');
+const errorRegistrationDocument = ref('');
 
 watch(driverMobileNumber, (changedMobileNumber) => {
     if (changedMobileNumber === "") {
@@ -103,6 +109,7 @@ const validate = () => {
     errorPower.value = '';
     errorSeats.value = '';
     errorFuelType.value = '';
+    errorRegistrationDocument.value = '';
 
     if (!driverLastName.value) isValid = false;
     if (!driverFirstName.value) isValid = false;
@@ -178,6 +185,7 @@ const setValues = (data) => {
     currentMileage.value = data.currentMileage || '';
     carForDisabled.value = data.hasMobilityModifications || false;
     isLeased.value = data.isLeased || false;
+    // Note: registrationDocument is not set from data as it's a file upload
 };
 
 watch(() => props.initialValues, (newVal) => {
@@ -214,13 +222,54 @@ const getValues = () => {
         },
         currentMileage: currentMileage.value,
         hasMobilityModifications: carForDisabled.value,
-        isLeased: isLeased.value
+        isLeased: isLeased.value,
+        registrationDocument: registrationDocument.value
+    }
+};
+
+const handleLicensePlateBlur = async () => {
+    let jsonToSend = {
+        "licensePlate": licensePlate.value
+    }
+
+    try {
+        const data = await ServiceAPI.fetchDataForVehicle(jsonToSend);
+        setValues(data);
+    } catch (error) {
+        return;
     }
 };
 
 const getPTI = () => {
     return { expirationDatePti: ptiExpiryDate.value };
 }
+
+const handleRegistrationDocumentUpload = async (file) => {
+    if (!file) return;
+
+    try {
+        isProcessingDocument.value = true;
+        errorRegistrationDocument.value = '';
+
+        const result = await ServiceAPI.processRegistrationDocument(
+            file
+        );
+
+        console.log('AI extracted:', result);
+        console.log('We uploaded', file);
+
+        if (result.data) {
+            setValues(result.data);
+        }
+
+        // uploadedDocumentId.value = result.documentId;
+    } catch (error) {
+        console.error('Error uploading registration document:', error);
+        errorRegistrationDocument.value = 'Eroare la incarcarea documentului';
+    } finally {
+        isProcessingDocument.value = false;
+    }
+};
 
 defineExpose({
     getValues,
@@ -233,10 +282,24 @@ defineExpose({
 <template>
     <div class="my-4">
 
-        <h5 class="text-xl font-semibold text-white">Informatii sofer</h5>
-        <hr class="mt-2 border-gray-200">
+        <!-- Vehicle Registration Document Upload -->
+        <div class="mb-6">
+            <h5 class="text-xl font-semibold text-white font-jura tracking-tighter">Incarca talon (optional)</h5>
+            <hr class="mt-2 border-gray-200 mb-2">
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="gap-4">
+                <FileUploadComponent :ref="(el) => setInputRef(el, 21)" id="registrationDocument" labelData=""
+                    v-model="registrationDocument" :errorMessage="errorRegistrationDocument" :dark="true"
+                    accept="image/*" :maxSize="10 * 1024 * 1024"
+                    infoMessage="Incarcati o imagine cu talonul vehiculului (optional)"
+                    @fileSelected="handleRegistrationDocumentUpload" />
+            </div>
+        </div>
+
+        <h5 class="text-xl font-semibold text-white font-jura tracking-tighter">Informatii sofer</h5>
+        <hr class="mt-2 border-gray-200 mb-4">
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-x-4">
             <InputComponent :ref="(el) => setInputRef(el, 0)" class="col-span-1" id="driverLastName" labelData="Nume"
                 type="text" v-model="driverLastName" :dark="true"
                 :errorMessage="driverLastName === '' ? 'Camp necesar' : ''">
@@ -250,7 +313,7 @@ defineExpose({
             </InputComponent>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-x-4">
             <div></div>
             <InputComponent :ref="(el) => setInputRef(el, 3)" id="driverIdentif" labelData="Serie / numar" type="text"
                 v-model="driverIdentif" :dark="true" :errorMessage="driverIdentif === '' ? 'Camp necesar' : ''">
@@ -262,11 +325,11 @@ defineExpose({
             <div></div>
         </div>
 
-        <h5 class="text-xl font-semibold text-white">Informatii vehicul</h5>
-        <hr class="mt-2">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <h5 class="text-xl font-semibold text-white font-jura tracking-tighter">Informatii vehicul</h5>
+        <hr class="mt-2 mb-4">
+        <div class="grid grid-cols-2 gap-x-4">
             <InputComponent :ref="(el) => setInputRef(el, 5)" id="licensePlate" labelData="Nr Inmatriculare" type="text"
-                v-model="licensePlate" :dark="true" :errorMessage="errorLicensePlate">
+                v-model="licensePlate" :dark="true" :errorMessage="errorLicensePlate" @blur="handleLicensePlateBlur">
             </InputComponent>
             <SelectorComponent :ref="(el) => setInputRef(el, 6)" id="registrationType" labelData="Status"
                 :options="Service.getRegistrationTypes()" v-model="registrationType"
@@ -279,7 +342,7 @@ defineExpose({
                 :errorMessage="vehicleType === '' ? 'Camp necesar' : ''" />
         </div>
 
-        <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
+        <div class="grid grid-cols-3 md:grid-cols-6 gap-x-4">
             <InputComponent :ref="(el) => setInputRef(el, 9)" id="brand" labelData="Brand" type="text" v-model="brand"
                 :dark="true" :errorMessage="brand === '' ? 'Camp necesar' : ''">
             </InputComponent>
@@ -300,7 +363,7 @@ defineExpose({
             </InputComponent>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-4">
+        <div class="grid md:grid-cols-3 gap-x-4">
             <InputComponent class="col-span-1" :ref="(el) => setInputRef(el, 15)" id="seats" labelData="Locuri"
                 type="number" v-model="seats" :dark="true" :errorMessage="errorSeats">
             </InputComponent>
@@ -321,29 +384,28 @@ defineExpose({
             </InputComponent>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-x-4">
             <div class="hidden md:block"></div>
             <InputComponent class="md:col-span-2" :ref="(el) => setInputRef(el, 20)" id="currentMileage"
                 labelData="Numar km" type="number" v-model="currentMileage" :dark="true"
                 :errorMessage="currentMileage === '' ? 'Camp necesar' : ''">
             </InputComponent>
             <div class="hidden md:block"></div>
-            <div class="flex gap-2 items-center flex-1 mt-6 col-span-2 md:justify-normal justify-center">
-                <p class="mb-1 text-white tracking-wide font-medium">Modificari dizabilitati</p>
+            <div class="flex gap-2 items-center flex-1 col-span-2 md:justify-normal justify-center">
+                <p class="font-medium text-lg text-gray-100/90 font-jura tracking-tighter">Modificari dizabilitati
+                </p>
                 <RadioComponent v-model="carForDisabled" :options="[
                     { label: 'Nu', value: false },
                     { label: 'Da', value: true }
                 ]" :name="'disabled'" :dark="true" />
             </div>
-            <div class="flex gap-2 items-center flex-1 mt-6 col-span-2 md:justify-end justify-center">
-                <p class="mb-1 text-white tracking-wide font-medium">Leased</p>
+            <div class="flex gap-2 items-center flex-1 col-span-2 md:justify-end justify-center">
+                <p class="font-medium text-lg text-gray-100/90 font-jura tracking-tighter">Leased</p>
                 <RadioComponent v-model="isLeased" :options="[
                     { label: 'Nu', value: false },
                     { label: 'Da', value: true }
                 ]" :name="'leased'" :dark="true" />
             </div>
         </div>
-
-
     </div>
 </template>

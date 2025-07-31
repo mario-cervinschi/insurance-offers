@@ -15,7 +15,7 @@ export class Service {
 
   static reformatCountriesForSelector(nationalities) {
     return [
-      { value: '', label: 'Alege tara' },
+      // { value: '', label: 'Alege tara' },
       ...nationalities.value.map((n) => ({
         value: n.iso2,
         label: n.nameRO,
@@ -25,7 +25,7 @@ export class Service {
 
   static reformatCountiesForSelector(counties) {
     return [
-      { value: '', label: 'Alege oras' },
+      // { value: '', label: 'Alege oras' },
       ...counties.value.map((n) => ({
         value: n.code,
         label: n.name,
@@ -35,7 +35,7 @@ export class Service {
 
   static reformatCitiesForSelector(cities) {
     return [
-      { value: '', label: 'Alege oras' },
+      // { value: '', label: 'Alege oras' },
       ...cities.value.map((n) => ({
         value: n.name,
         label: n.name,

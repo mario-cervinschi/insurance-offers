@@ -5,6 +5,7 @@ use \Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiNomenclatureController;
 use App\Http\Controllers\ApiOfferController;
 use App\Http\Controllers\ApiPolicyController;
+use App\Http\Controllers\VehicleController;
 
 Route::post('/vehicles/process-registration-document', [VehicleController::class, 'processRegistrationDocument']);
 Route::get('/vehicle', [VehicleController::class, 'getVehicleLight']);
