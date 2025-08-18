@@ -21,12 +21,13 @@ O aplicatie full-stack moderna care te ajuta sa gasesti cele mai bune oferte de 
 - **Tailwind CSS**
   
 ## 📋 Poze
-<img width="1900" height="1259" alt="homepage" src="https://github.com/user-attachments/assets/5e28be97-e458-4ee3-bb37-662d4e89e9fa" />
-<img width="1900" height="2116" alt="form_phase_1" src="https://github.com/user-attachments/assets/5a867098-bf5a-4b53-803d-1756c662e8a7" />
-<img width="1900" height="1084" alt="form_phase_2" src="https://github.com/user-attachments/assets/ec204e25-9286-456a-bab4-7adf5b776cbe" />
-<img width="1900" height="1964" alt="form_phase_3" src="https://github.com/user-attachments/assets/6bf43d1a-61b6-4b8f-839e-6ebfd2e57e83" />
-<img width="1900" height="950" alt="result_searching" src="https://github.com/user-attachments/assets/a304c849-3b12-4e10-ac3c-0d5d504f2ee7" />
-<img width="1900" height="3480" alt="result_result" src="https://github.com/user-attachments/assets/853f988c-ca13-414b-b1da-7b74e6122f42" />
+
+<img width="1900" height="1259" alt="homepage" src="https://github.com/user-attachments/assets/f8627e26-d9a2-4c58-8bcb-41806cb84ae7" />
+<img width="1900" height="2116" alt="form_phase_1" src="https://github.com/user-attachments/assets/f7079b3b-bef4-4a67-ae64-7685de5f7d75" />
+<img width="1900" height="1084" alt="form_phase_2" src="https://github.com/user-attachments/assets/cea9e518-890e-4abe-9a08-47921c9b7119" />
+<img width="1900" height="1964" alt="form_phase_3" src="https://github.com/user-attachments/assets/cf2dcaa8-5d23-4e22-bf71-0e5ec5d9c86d" />
+<img width="1900" height="950" alt="result_searching" src="https://github.com/user-attachments/assets/87159ade-f4ae-4b57-847a-304144582354" />
+<img width="1900" height="5400" alt="result_result" src="https://github.com/user-attachments/assets/35c268a4-747c-4e76-8969-1b1b27f190ce" />
 
 ## 📱 Cum functioneaza
 
